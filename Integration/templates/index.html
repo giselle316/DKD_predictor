@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1-Year Kidney Outcome Predictor for DKD Patients at CKD Stages 3-4</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>1-Year Kidney Outcome Predictor for DKD Patients at CKD Stages 3-4</h1>
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <label>Upload Kidney Glomerulus Image:</label>
+            <input type="file" id="crescent_images" name="crescent_images" accept="image/*" multiple required>
+
+            <label>Upload Kidney Interstitial Image:</label>
+            <small>The number of fibrosis images must be odd. (e.g., 3, 5, 7...)</small>
+            <input type="file" id="fibrosis_images" name="fibrosis_images" accept="image/*" multiple required>
+
+            <script>
+            document.querySelector("form").addEventListener("submit", function(e) {
+                const crescentInput = document.getElementById("crescent_images");
+                const fibrosisInput = document.getElementById("fibrosis_images");
+
+                if (fibrosisInput.files.length % 2 === 0) {
+                    alert("The number of fibrosis images must be odd.");
+                    e.preventDefault();
+                    return;
+                }
+            });
+            </script>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ePWV(m/s):</label>
+                    <input type="text" name="ePWV" required>
+                </div>
+                <div class="form-group">
+                    <label>SII:</label>
+                    <input type="text" name="SII" required>
+                </div>
+                <div class="form-group">
+                    <label>24hUP(g/24h):</label>
+                    <input type="text" name="24h-UP" required>
+                </div>
+                <div class="form-group">
+                    <label>eGFR(mL/min/1.73m²):</label>
+                    <input type="text" name="eGFR" required>
+                </div>
+            </div>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if clinical is not none %}
+        <div class="results">
+            <h2>Prediction Results</h2>
+            <p>Crescent-shaped Changes Image Diagnosis: {{ crescent }}</p>
+            <p>Interstitial Fibrosis Image Diagnosis: {{ fibrosis }}</p>
+            <p>Will this DKD patient reach the composite kidney outcome within one year?<br>
+                <strong>Yes or No</strong>
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Results</h1>
+
+        <div class="result-section">
+            <h2>Image Recognition Results</h2>
+            <p><strong>Crescent-shaped Change:</strong> {{ 'Yes' if crescent == 1 else 'No' }}</p>
+            <p><strong>Interstitial Fibrosis:</strong> {{ '＞25%' if fibrosis == 1 else '≤25%' }}</p>
+        </div>
+
+        <div class="result-section">
+            <h2>Clinical Prediction</h2>
+            <p><strong>Will this DKD patient reach the composite kidney outcome within one year?</strong></p>
+            <p style="font-size: 1.5em; color: darkblue;">
+                {{ 'Yes' if clinical == 1 else 'No' }}
+            </p>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+    </div>
+</body>
+</html>
